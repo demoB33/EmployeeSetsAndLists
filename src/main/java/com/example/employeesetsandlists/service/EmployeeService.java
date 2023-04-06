@@ -7,43 +7,37 @@ import com.example.employeesetsandlists.domain.Employee;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
     private static final int SIZE = 5;
-    private final List<Employee> employees = new ArrayList<>(SIZE);
+    private final Map<String, Employee> employees = new HashMap<>(SIZE);
 
-    @PostConstruct
+   /* @PostConstruct
     public void initial() {
-        employees.add(new Employee("Сергей", "Акулов"));
-        employees.add(new Employee("Иван", "Аулов"));
-
-    }
+        employees.put(new Employee("Сергей", "Акулов"));
+        employees.put(new Employee("Иван", "Аулов"));
+    }*/
 
 
     public Object addEmployee(String firstName, String lastName) {
         Employee temp = new Employee(firstName, lastName);
         if (employees.size() < SIZE) {
-            for (Employee emp : employees) {
-                if (employees.contains(emp)) {
-                    throw new EmployeeAlreadyAddedException();
-                }
-
+            if (employees.containsKey(temp.getFullName())) {
+                throw new EmployeeAlreadyAddedException();
             }
-            employees.add(temp);
+            employees.put(temp.getFullName(), temp);
             return temp;
         }
         throw new EmployeeStorageIsFullException();
-
     }
 
     public Employee deleteEmployee(String firstName, String lastName) {
         Employee temp = new Employee(firstName, lastName);
-        if (employees.remove(temp)) {
-            return temp;
+        if (employees.containsKey(temp.getFullName())) {
+            return employees.remove(temp.getFullName());
+
         }
 
         throw new EmployeeNotFoundException();
@@ -51,8 +45,8 @@ public class EmployeeService {
 
     public Employee findEmployee(String firstName, String lastName) {
         Employee temp = new Employee(firstName, lastName);
-        if (employees.contains(temp)) {
-            return temp;
+        if (employees.containsKey(temp.getFullName())) {
+            return employees.get(temp.getFullName());
         }
 
         throw new EmployeeNotFoundException();
@@ -60,8 +54,8 @@ public class EmployeeService {
     }
 
 
-    public List<Employee> list() {
-        return Collections.unmodifiableList(employees);
+    public Collection<Employee> findAll() {
+        return Collections.unmodifiableCollection(employees.values());
     }
 }
 

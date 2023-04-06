@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Employee {
     private String firstname;
     private String lastName;
-
     public Employee(String firstname, String lastName) {
         this.firstname = firstname;
         this.lastName = lastName;
@@ -25,6 +24,10 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        return firstname + " " + lastName;
     }
 
     @Override
