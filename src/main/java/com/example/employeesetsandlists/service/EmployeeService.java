@@ -7,46 +7,51 @@ import com.example.employeesetsandlists.domain.Employee;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class EmployeeService {
-    private static final int SIZE = 5;
-    private final Map<String, Employee> employees = new HashMap<>(SIZE);
+    private static final int SIZE = 10;
+    private final List<Employee> employees = new ArrayList<>();
 
-   /* @PostConstruct
+    /* @PostConstruct
     public void initial() {
-        employees.put(new Employee("Сергей", "Акулов"));
-        employees.put(new Employee("Иван", "Аулов"));
+        employees.add(new Employee("Сергей", "Акулов"));
+        employees.add(new Employee("Иван", "Аулов"));
+
     }*/
 
 
-    public Object addEmployee(String firstName, String lastName) {
-        Employee temp = new Employee(firstName, lastName);
+    public Object addEmployee(String firstName, String lastName, int department, int salary) {
+        Employee temp = new Employee(firstName, lastName, department, salary);
+        if (employees.contains(temp)) {
+            throw new EmployeeAlreadyAddedException();
+        }
+
         if (employees.size() < SIZE) {
-            if (employees.containsKey(temp.getFullName())) {
-                throw new EmployeeAlreadyAddedException();
-            }
-            employees.put(temp.getFullName(), temp);
+            employees.add(temp);
             return temp;
         }
         throw new EmployeeStorageIsFullException();
+
     }
 
-    public Employee deleteEmployee(String firstName, String lastName) {
-        Employee temp = new Employee(firstName, lastName);
-        if (employees.containsKey(temp.getFullName())) {
-            return employees.remove(temp.getFullName());
-
+    public Employee deleteEmployee(String firstName, String lastName, int department, int salary) {
+        Employee temp = new Employee(firstName, lastName, department, salary);
+        if (employees.remove(temp)) {
+            return temp;
         }
 
         throw new EmployeeNotFoundException();
     }
 
-    public Employee findEmployee(String firstName, String lastName) {
-        Employee temp = new Employee(firstName, lastName);
-        if (employees.containsKey(temp.getFullName())) {
-            return employees.get(temp.getFullName());
+    public Employee findEmployee(String firstName, String lastName, int department, int salary) {
+        Employee temp = new Employee(firstName, lastName, department, salary);
+        if (employees.contains(temp)) {
+            return temp;
         }
 
         throw new EmployeeNotFoundException();
@@ -54,9 +59,8 @@ public class EmployeeService {
     }
 
 
-    public Collection<Employee> findAll() {
-        return Collections.unmodifiableCollection(employees.values());
+    public List<Employee> getAll() {
+        return new ArrayList<>(employees);
     }
+
 }
-
-

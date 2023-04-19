@@ -5,9 +5,29 @@ import java.util.Objects;
 public class Employee {
     private String firstname;
     private String lastName;
-    public Employee(String firstname, String lastName) {
+    private  int department;
+    private  int salary;
+    public Employee(String firstname, String lastName, int department, int salary) {
         this.firstname = firstname;
         this.lastName = lastName;
+        this.department = department;
+        this.salary = salary;
+    }
+
+    public int getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(int department) {
+        this.department = department;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
     public String getFirstname() {
@@ -48,6 +68,8 @@ public class Employee {
         return "Employee{" +
                 "firstname='" + firstname + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", department=" + department +
+                ", salary=" + salary +
                 '}';
     }
 }
