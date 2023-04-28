@@ -16,36 +16,6 @@ public class DepartmentService {
     public DepartmentService(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-    public void changeDepartment(Employee employee, int newDepartment) {
-
-        employeeService.getAll().stream()
-                .filter(value -> Objects.equals(employee, value))
-                .findFirst()
-                .ifPresent(value -> value.setDepartment(newDepartment));
-    }
-
-    public void indexSalariesForDepartment(double index, int department) {
-        employeeService.getAll().stream()
-                .filter(employee -> employee.getDepartment() == department)
-                .forEach(employee -> employee.setSalary(
-                        (int) (employee.getSalary() + employee.getSalary() * index / 100)
-                ));
-    }
-
-    public double averageSalaryForDepartment(int department) {
-        return employeeService.getAll().stream()
-                .filter(employee -> employee.getDepartment() == department)
-                .mapToInt(Employee::getSalary)
-                .average()
-                .orElse(0);
-    }
-
-    public double totalSalariesForDepartment(int department) {
-        return employeeService.getAll().stream()
-                .filter(employee -> employee.getDepartment() == department)
-                .mapToInt(Employee::getSalary)
-                .sum();
-    }
 
     public Employee findEmployeeWithMinSalaryFromDepartment(int department) {
         return employeeService.getAll().stream()

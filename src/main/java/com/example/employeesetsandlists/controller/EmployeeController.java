@@ -25,7 +25,7 @@ public class EmployeeController {
                         @RequestParam String lastName,
                         @RequestParam("departmentId") int department,
                         @RequestParam("salary") int salary) {
-        return (Employee) employeeService.addEmployee(firstName,lastName,department,salary);
+        return (Employee) employeeService.addEmployee(firstName, lastName, department, salary);
 
     }
 
@@ -35,7 +35,7 @@ public class EmployeeController {
                            @RequestParam("departmentId") int department,
                            @RequestParam("salary") int salary) {
 
-        return employeeService.deleteEmployee(firstName,lastName,department,salary);
+        return employeeService.deleteEmployee(firstName, lastName, department, salary);
     }
 
     @GetMapping(path = "/find")
@@ -43,11 +43,13 @@ public class EmployeeController {
                          @RequestParam String lastName,
                          @RequestParam("departmentId") int department,
                          @RequestParam("salary") int salary) {
-        return employeeService.findEmployee(firstName,lastName,department,salary);
+        return employeeService.findEmployee(firstName, lastName, department, salary);
     }
+
     @GetMapping
     public List<Employee> getAll() {
         return employeeService.getAll();
     }
+
 
 }

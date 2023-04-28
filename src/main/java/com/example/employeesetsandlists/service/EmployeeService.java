@@ -4,6 +4,7 @@ import com.example.employeesetsandlists.exceptions.EmployeeAlreadyAddedException
 import com.example.employeesetsandlists.exceptions.EmployeeNotFoundException;
 import com.example.employeesetsandlists.exceptions.EmployeeStorageIsFullException;
 import com.example.employeesetsandlists.domain.Employee;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,9 @@ public class EmployeeService {
 
 
     public Object addEmployee(String firstName, String lastName, int department, int salary) {
+
+        checkEmployeeInput(firstName, lastName);
+
         Employee temp = new Employee(firstName, lastName, department, salary);
         if (employees.contains(temp)) {
             throw new EmployeeAlreadyAddedException();
@@ -33,6 +37,7 @@ public class EmployeeService {
 
         if (employees.size() < SIZE) {
             employees.add(temp);
+            System.out.println(temp);
             return temp;
         }
         throw new EmployeeStorageIsFullException();
@@ -40,6 +45,9 @@ public class EmployeeService {
     }
 
     public Employee deleteEmployee(String firstName, String lastName, int department, int salary) {
+
+        checkEmployeeInput(firstName, lastName);
+
         Employee temp = new Employee(firstName, lastName, department, salary);
         if (employees.remove(temp)) {
             return temp;
@@ -49,6 +57,9 @@ public class EmployeeService {
     }
 
     public Employee findEmployee(String firstName, String lastName, int department, int salary) {
+
+        checkEmployeeInput(firstName, lastName);
+
         Employee temp = new Employee(firstName, lastName, department, salary);
         if (employees.contains(temp)) {
             return temp;
@@ -56,6 +67,12 @@ public class EmployeeService {
 
         throw new EmployeeNotFoundException();
 
+    }
+
+    private void checkEmployeeInput(String firstName, String lastName) {
+        if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName) && StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)) {
+        }else
+        throw new EmployeeAlreadyAddedException();
     }
 
 

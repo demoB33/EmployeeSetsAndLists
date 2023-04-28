@@ -1,5 +1,7 @@
 package com.example.employeesetsandlists.domain;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 
 public class Employee {
@@ -8,11 +10,12 @@ public class Employee {
     private  int department;
     private  int salary;
     public Employee(String firstname, String lastName, int department, int salary) {
-        this.firstname = firstname;
-        this.lastName = lastName;
+        this.firstname = StringUtils.capitalize(firstname.toLowerCase());
+        this.lastName = StringUtils.capitalize(lastName.toLowerCase());
         this.department = department;
         this.salary = salary;
     }
+
 
     public int getDepartment() {
         return department;
