@@ -8,10 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
@@ -22,7 +19,6 @@ public class EmployeeService {
     public void initial() {
         employees.add(new Employee("Сергей", "Акулов"));
         employees.add(new Employee("Иван", "Аулов"));
-
     }*/
 
 
@@ -70,9 +66,10 @@ public class EmployeeService {
     }
 
     private void checkEmployeeInput(String firstName, String lastName) {
-        if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName) && StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName)) {
-        }else
-        throw new EmployeeAlreadyAddedException();
+        if (!(!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName) && StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName))) {
+            throw new EmployeeAlreadyAddedException();
+        }
+
     }
 
 
